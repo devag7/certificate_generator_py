@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: certificate_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  certificate_worker:
+    build: .
+    container_name: certificate_worker
+    depends_on:
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./certificates:/app/certificates
+      - ./templates:/app/templates
+      - ./fonts:/app/fonts
+      - ./logs:/app/logs
+    command: celery -A tasks worker --loglevel=info --concurrency=4
+    restart: unless-stopped
+
+  certificate_beat:
+    build: .
+    container_name: certificate_beat
+    depends_on:
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./certificates:/app/certificates
+      - ./logs:/app/logs
+    command: celery -A tasks beat --loglevel=info
+    restart: unless-stopped
+
+  certificate_monitor:
+    build: .
+    container_name: certificate_monitor
+    depends_on:
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    command: celery -A tasks flower --port=5555 --address=0.0.0.0
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  default:
+    name: certificate_network
