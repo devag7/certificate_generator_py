@@ -3,33 +3,7 @@ Certificate Generation Task Module
 ==================================
 
 Author: devag7 (Deva Garwalla)
-Description: Advanced certificate generation system using Celery, FF        # Method 1: ImageMagick (best quality) - using modern 'magick' command
-        try:
-            img_to_pdf_cmd = [
-                'magick', str(temp_img_path),
-                '-density', '200',
-                '-quality', '85',
-                '-compress', 'jpeg',
-                str(pdf_output_path)
-            ]
-            subprocess.run(img_to_pdf_cmd, check=True)
-            conversion_success = True
-            logger.info("PDF conversion successful using ImageMagick")
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            # Fallback to legacy convert command
-            try:
-                img_to_pdf_cmd = [
-                    'convert', str(temp_img_path),
-                    '-density', '200',
-                    '-quality', '85',
-                    '-compress', 'jpeg',
-                    str(pdf_output_path)
-                ]
-                subprocess.run(img_to_pdf_cmd, check=True)
-                conversion_success = True
-                logger.info("PDF conversion successful using ImageMagick (legacy)")
-            except (subprocess.CalledProcessError, FileNotFoundError):
-                logger.warning("ImageMagick conversion failed, trying FFmpeg")rtLab
+Description: Advanced certificate generation system using Celery, FFmpeg, and ReportLab.
              Supports dynamic content, QR codes, and optimized PDF generation.
 
 Features:

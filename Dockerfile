@@ -8,9 +8,10 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL maintainer="devag7 <your-email@example.com>"
-LABEL description="Certificate Generation System with Celery and FFmpeg"
+LABEL maintainer="devag7 (Dev Agarwalla)"
+LABEL description="Professional Certificate Generator with Dynamic Content & QR Codes"
 LABEL version="1.0"
+LABEL author="devag7"
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \

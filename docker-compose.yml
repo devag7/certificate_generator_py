@@ -1,3 +1,7 @@
+# 🎓 Certificate Generator Docker Compose Configuration
+# Author: devag7 (Dev Agarwalla)
+# Description: Complete Docker setup for certificate generation system
+
 version: '3.8'
 
 services:
