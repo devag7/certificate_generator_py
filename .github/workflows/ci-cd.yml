@@ -1,4 +1,4 @@
-name: Certificate Generation System CI/CD
+name: Certificate Generation System CI/CDMore actions
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     services:
       redis:
         image: redis:7-alpine
@@ -156,19 +156,19 @@ jobs:
         name: certificate-gen-system
         path: dist/certificate-gen-system.tar.gz
 
-security-scan:
-  runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v4
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
 
-     - name: Run Bandit Security Scan
-       uses: tj-actions/bandit@v5.5
-       with:
-         options: "-r ./ -f json -o bandit-report.json"
+    - name: Run Bandit Security Scan
+      uses: tj-actions/bandit@v5.5
+      with:
+        options: "-r ./ -f json -o bandit-report.json"
 
-     - name: Upload security scan results
-       uses: actions/upload-artifact@v4
-       if: always()
-       with:
-         name: security-scan-results
-         path: bandit-report.json
+    - name: Upload security scan results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-scan-results
+        path: bandit-report.json
