@@ -151,7 +151,7 @@ jobs:
           .
 
     - name: Upload deployment package
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: certificate-gen-system
         path: dist/certificate-gen-system.tar.gz
@@ -167,7 +167,7 @@ jobs:
         options: "-r . -f json -o bandit-report.json"
 
     - name: Upload security scan results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: security-scan-results
